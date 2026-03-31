@@ -26,6 +26,7 @@ html{
     -webkit-animation: rotate 20s infinite;
     /*匀速*/
     animation-timing-function: linear;
+    cursor: pointer;
 }
 @-webkit-keyframes rotate{
     from{transform: rotateX(0deg) rotateY(0deg);}
@@ -92,22 +93,22 @@ html{
 .cube .in_bottom{
     transform: rotateX(-90deg) translateZ(100px);
 }
-/*鼠标移入后样式*/
-.cube:hover .out_front{
+/*点击切换后样式*/
+.cube.active .out_front{
     transform: rotateY(0deg) translateZ(400px);
 }
-.cube:hover .out_back{
+.cube.active .out_back{
     transform: translateZ(-400px) rotateY(180deg);
 }
-.cube:hover .out_left{
+.cube.active .out_left{
     transform: rotateY(90deg) translateZ(400px);
 }
-.cube:hover .out_right{
+.cube.active .out_right{
     transform: rotateY(-90deg) translateZ(400px);
 }
-.cube:hover .out_top{
+.cube.active .out_top{
     transform: rotateX(90deg) translateZ(400px);
 }
-.cube:hover .out_bottom{
+.cube.active .out_bottom{
     transform: rotateX(-90deg) translateZ(400px);
 }
