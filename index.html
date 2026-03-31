@@ -9,7 +9,7 @@
         <!--/*外层最大容器*/-->
         <div class="wrap">
     <!--    /*包裹所有元素的容器*/-->
-        <div class="cube" onclick="this.classList.toggle('active')">
+        <div class="cube" id="cube">
             <!--前面图片 -->
             <div class="out_front">
                 <img src="img/1.jpg"  class="pic"/>
@@ -52,5 +52,83 @@
             </span>
         </div>
         </div>
+
+        <script>
+            (function () {
+                const cube = document.getElementById('cube');
+                let rotateX = -30;
+                let rotateY = -80;
+                let isPointerDown = false;
+                let moved = false;
+                let startX = 0;
+                let startY = 0;
+
+                function render() {
+                    cube.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+                }
+
+                function autoRotate() {
+                    if (!isPointerDown) {
+                        rotateX += 0.08;
+                        rotateY += 0.2;
+                        render();
+                    }
+                    requestAnimationFrame(autoRotate);
+                }
+
+                cube.addEventListener('pointerdown', function (event) {
+                    isPointerDown = true;
+                    moved = false;
+                    startX = event.clientX;
+                    startY = event.clientY;
+                    cube.classList.add('dragging');
+
+                    if (cube.setPointerCapture) {
+                        cube.setPointerCapture(event.pointerId);
+                    }
+                });
+
+                cube.addEventListener('pointermove', function (event) {
+                    if (!isPointerDown) {
+                        return;
+                    }
+
+                    const deltaX = event.clientX - startX;
+                    const deltaY = event.clientY - startY;
+
+                    if (Math.abs(deltaX) > 2 || Math.abs(deltaY) > 2) {
+                        moved = true;
+                    }
+
+                    rotateY += deltaX * 0.4;
+                    rotateX -= deltaY * 0.3;
+                    startX = event.clientX;
+                    startY = event.clientY;
+                    render();
+                    event.preventDefault();
+                });
+
+                function stopDrag(event) {
+                    isPointerDown = false;
+                    cube.classList.remove('dragging');
+
+                    if (event && cube.releasePointerCapture && cube.hasPointerCapture(event.pointerId)) {
+                        cube.releasePointerCapture(event.pointerId);
+                    }
+                }
+
+                cube.addEventListener('pointerup', function (event) {
+                    stopDrag(event);
+
+                    if (!moved) {
+                        cube.classList.toggle('active');
+                    }
+                });
+
+                cube.addEventListener('pointercancel', stopDrag);
+                render();
+                autoRotate();
+            })();
+        </script>
     </body>
 </html>

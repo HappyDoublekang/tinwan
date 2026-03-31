@@ -23,14 +23,12 @@ html{
     margin: 0 auto;
     transform-style: preserve-3d;
     transform: rotateX(-30deg) rotateY(-80deg);
-    -webkit-animation: rotate 20s infinite;
-    /*匀速*/
-    animation-timing-function: linear;
-    cursor: pointer;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
 }
-@-webkit-keyframes rotate{
-    from{transform: rotateX(0deg) rotateY(0deg);}
-    to{transform: rotateX(360deg) rotateY(360deg);}
+.cube.dragging{
+    cursor: grabbing;
 }
 .cube div{
     position: absolute;
